@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 class Note extends Component {
     render() { 
-        let {doIt} = this.props;
+        const {willPower} = this.props;
         return ( 
-            (doIt) ?    
+            (willPower)?    
             <div>
                 <h1>This Is Your Tasks Today !</h1>
                 <ul>
@@ -12,8 +12,10 @@ class Note extends Component {
                     <li key={task}>{task}</li>
                     )}
                 </ul>
-            </div>  :
+            </div>
+            :
             <div>
+                    {/* if willPower is false, then this h1 is printed */}
                     <h1>There're somethings you need to do !</h1>
             </div>
          );
