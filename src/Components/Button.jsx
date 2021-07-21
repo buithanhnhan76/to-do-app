@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 
 class Button extends Component {
-
-    getClass(doIt){
-        if(doIt)
-            return "btn btn-success";
-        return "btn btn-danger";
-    };
-    
-
     render() {
-        let {doIt} = this.props;
+        // pick willPower from app.js
+        const {willPower} = this.props;
         return ( 
-
-            <button onClick={this.props.onClickChange} className={this.getClass(doIt)}
-            type="button">{ doIt === false ? "Do It" : " GIVE 100 % "}</button>
+            // btn class = success when not click and in danger if user want to finish
+            <button onClick={this.props.onClick} className={(willPower)?"btn btn-danger":"btn btn-success"}
+            >
+            {/* label is Get It when user not click and Finish after user click */}
+            { willPower ? "Finish" : "Get it"}
+            </button>
          );
     }
 }
