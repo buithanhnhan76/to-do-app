@@ -23,16 +23,19 @@ class App extends Component {
     this.setState({willPower: !this.state.willPower});
   }
   // update task
-  handleUpdate = (task) => {
+  handleUpdate = async (task) => {
     const tasks = [...this.state.tasks];
     const index = tasks.indexOf(task);
     tasks[index].completed = !tasks[index].completed;
     this.setState({tasks});
+    // update server
+    await axios.put("https://jsonplaceholder.typicode.com/todos" + "/" + task.id,task);
   }
   // delete task
-  handleDelete = (task) => {
+  handleDelete = async (task) => {
     const tasks = this.state.tasks.filter(stateTask => stateTask.id !== task.id);
     this.setState({tasks});
+    await axios.delete("https://jsonplaceholder.typicode.com/todos" + "/" + task.id);
   }
   render () {
     // pick tasks and willPower from state

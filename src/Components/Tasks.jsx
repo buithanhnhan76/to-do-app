@@ -18,7 +18,7 @@ class Tasks extends Component {
     }
     handlePageChange = (data) => {
         // pick selected from data: 1,2,3 
-        let selectedPage = data.selected;
+        const selectedPage = data.selected;
         this.setState({currentPage: selectedPage});
     }
     render() { 
