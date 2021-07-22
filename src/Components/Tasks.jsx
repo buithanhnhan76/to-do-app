@@ -3,10 +3,12 @@ import React, { Component } from 'react';
 import ReactPaginate from 'react-paginate';
 // paginate data
 import { paginate } from '../utils/paginate';
+// import tasks photo
+import tasksPhoto from '../images/tasks.jpg';
  
 class Tasks extends Component {
     state = {
-        // current page && pagerange
+        // current page && pageSize
         currentPage: 0,
         pageSize: 5,
     }
@@ -17,17 +19,26 @@ class Tasks extends Component {
     }
     render() { 
         const {willPower,tasks} = this.props;
-        const paginateTasks = paginate(tasks,this.state.currentPage,this.state.pageSize);
+        const {pageSize, currentPage} = this.state;
+
+        // paginate data
+        const paginateTasks = paginate(tasks,currentPage,pageSize);
+        
+        // pageCount for pagination
+        const pageCount = Math.ceil(tasks.length / pageSize);
+
         return ( 
             (willPower)?    
             <div>
-                <h1>This Is Your Tasks Today !</h1>
+                <h1>This is your tasks today !</h1>
                 <ul>
                     {paginateTasks.map(task => 
                     <li key={task.id}>{task.title}</li>
                     )}
                 </ul>
-                <ReactPaginate onPageChange={this.handlePageChange}
+                <ReactPaginate 
+                pageCount={pageCount}
+                onPageChange={this.handlePageChange}
                 marginPagesDisplayed={2}
                 containerClassName="pagination"
                 pageClassName="page-item"
@@ -46,6 +57,7 @@ class Tasks extends Component {
             <div>
                     {/* if willPower is false, then this h1 is printed */}
                     <h1>There're somethings you need to do !</h1>
+                    <img className="img img-thumbnail img-deco" src={tasksPhoto}></img>
             </div>
          );
     }

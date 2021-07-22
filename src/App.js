@@ -28,7 +28,7 @@ class App extends Component {
     return (
     <div className="container-fluid mt-3">
         <Clock />
-        <div className="row container-fluid">
+        <div className="row ">
           <div className="col-10">
             <Tasks tasks = {tasks} willPower={willPower}/>
           </div>
