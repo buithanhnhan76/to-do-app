@@ -5,6 +5,7 @@ import Tasks from './Components/Tasks';
 import Button from './Components/Button';
 import axios from 'axios';
 
+export const TasksContext = React.createContext();
 class App extends Component {
   state = {
     // your tasks
@@ -21,11 +22,24 @@ class App extends Component {
   handleClick(){
     this.setState({willPower: !this.state.willPower});
   }
-
+  // update task
+  handleUpdate = (task) => {
+    const tasks = [...this.state.tasks];
+    const index = tasks.indexOf(task);
+    tasks[index].completed = !tasks[index].completed;
+    this.setState({tasks});
+  }
+  // delete task
+  handleDelete = (task) => {
+    const tasks = this.state.tasks.filter(stateTask => stateTask.id !== task.id);
+    this.setState({tasks});
+  }
   render () {
     // pick tasks and willPower from state
     const {tasks,willPower} = this.state;
+    
     return (
+    <TasksContext.Provider value={{tasks: this.state.tasks, onUpdate: this.handleUpdate, onDelete: this.handleDelete}}>
     <div className="container mt-5">
         <Clock />
         <div className="row ">
@@ -34,12 +48,12 @@ class App extends Component {
           </div>
           {/* mt2 for responsive in small devices */}
           <div className="col-md-6 mt-2">
-            <Button willPower={willPower} onClick={() => this.handleClick()}/>
+             <Button willPower={willPower} onClick={() => this.handleClick()}/>
           </div>
         </div>
-        
-        
     </div>
+    </TasksContext.Provider>
+    
   );
   }
 };

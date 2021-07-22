@@ -5,6 +5,10 @@ import ReactPaginate from 'react-paginate';
 import { paginate } from '../utils/paginate';
 // import tasks photo
 import tasksPhoto from '../images/tasks.jpg';
+import {Link} from 'react-router-dom';
+// router
+import {Route} from 'react-router-dom';
+import TaskDetails from './TaskDetails';
  
 class Tasks extends Component {
     state = {
@@ -30,7 +34,7 @@ class Tasks extends Component {
         return ( 
             (willPower)?    
             <div>
-                <h1>This is your tasks today !</h1>
+                <h1>Your tasks !</h1>
                     {paginateTasks.map(task => 
                     // margin bottom for space with pagination
                     <div key={task.id} className="row mb-3">
@@ -39,7 +43,7 @@ class Tasks extends Component {
                             {task.title}
                         </div>
                         <div className="col-4">
-                            <button className="btn btn-success">details</button>
+                            <Link to={`/taskdetails/${task.id}`}><button className="btn btn-success">details</button></Link> 
                         </div>
                         
                     </div>
@@ -60,11 +64,12 @@ class Tasks extends Component {
                 breakLinkClassName="page-link"
                 activeLinkClassName="page-link"
                 />
+                <Route path="/taskdetails/:id" render={(props) => <TaskDetails tasks={tasks}  {...props}></TaskDetails>}></Route>
             </div>
             :
             <div>
                     {/* if willPower is false, then this h1 is printed */}
-                    <h1>There're some tasks for you !</h1>
+                    <h1>Tasks for you !</h1>
                     <img className="img img-thumbnail img-deco" src={tasksPhoto}></img>
             </div>
          );
