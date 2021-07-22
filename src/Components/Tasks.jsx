@@ -31,11 +31,19 @@ class Tasks extends Component {
             (willPower)?    
             <div>
                 <h1>This is your tasks today !</h1>
-                <ul>
                     {paginateTasks.map(task => 
-                    <li key={task.id}>{task.title}</li>
+                    // margin bottom for space with pagination
+                    <div key={task.id} className="row mb-3">
+                        {/* text truncate to wrap text with ... */}
+                        <div className="col-8 text-truncate">
+                            {task.title}
+                        </div>
+                        <div className="col-4">
+                            <button className="btn btn-success">details</button>
+                        </div>
+                        
+                    </div>
                     )}
-                </ul>
                 <ReactPaginate 
                 pageCount={pageCount}
                 onPageChange={this.handlePageChange}
@@ -56,7 +64,7 @@ class Tasks extends Component {
             :
             <div>
                     {/* if willPower is false, then this h1 is printed */}
-                    <h1>There're somethings you need to do !</h1>
+                    <h1>There're some tasks for you !</h1>
                     <img className="img img-thumbnail img-deco" src={tasksPhoto}></img>
             </div>
          );

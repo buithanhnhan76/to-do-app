@@ -26,13 +26,14 @@ class App extends Component {
     // pick tasks and willPower from state
     const {tasks,willPower} = this.state;
     return (
-    <div className="container-fluid mt-3">
+    <div className="container mt-5">
         <Clock />
         <div className="row ">
-          <div className="col-10">
+          <div className="col-md-6">
             <Tasks tasks = {tasks} willPower={willPower}/>
           </div>
-          <div className="col-2">
+          {/* mt2 for responsive in small devices */}
+          <div className="col-md-6 mt-2">
             <Button willPower={willPower} onClick={() => this.handleClick()}/>
           </div>
         </div>
