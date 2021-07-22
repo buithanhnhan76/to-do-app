@@ -43,7 +43,7 @@ class Tasks extends Component {
                             {task.title}
                         </div>
                         <div className="col-4">
-                            <Link to={`/taskdetails/${task.id}`}><button className="btn btn-success">details</button></Link> 
+                            <Link to={`/taskdetails/${task.id}`}><button className="btn btn-success">Details</button></Link> 
                         </div>
                         
                     </div>
