@@ -16,7 +16,7 @@ const TaskDetails = (props) => {
             <p>ID: {task[0].id}</p>
             <p>TITLE: {task[0].title}</p>
             {/* if complteted is true || */}
-            <p>COMPLETE: {(task[0].completed)?<span className="badge badge-success">Complte</span>:<span className="badge badge-danger">Not Yet</span> }</p>
+            <p>COMPLETE: {(task[0].completed)?<span className="badge badge-success">Complete</span>:<span className="badge badge-danger">Not Yet</span> }</p>
             <button className="btn btn-warning d-block" onClick={() => taskscontext.onUpdate(task[0])}>Update</button>
             {/* my to create space between buttons */}
             {/* when click on delete, close taskdetails and delete task   */}
