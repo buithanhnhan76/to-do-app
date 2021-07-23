@@ -7,10 +7,10 @@ import { TasksContext } from '../App';
 const TaskDetails = (props) => {
     // id is the id of task
     const id = props.match.params.id;
-    // task is an array
-    const task = props.tasks.filter(task => task.id === parseInt(id));
     // context
     const taskscontext = useContext(TasksContext);
+    // task is an array
+    const task = taskscontext.tasks.filter(task => task.id === parseInt(id));
     return (
         <div className="container-fluid">
             {task[0]?

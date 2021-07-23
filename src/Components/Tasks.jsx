@@ -64,7 +64,7 @@ class Tasks extends Component {
                 breakLinkClassName="page-link"
                 activeLinkClassName="page-link"
                 />
-                <Route path="/taskdetails/:id" render={(props) => <TaskDetails tasks={tasks}  {...props}></TaskDetails>}></Route>
+                <Route path="/taskdetails/:id" render={(props) => <TaskDetails {...props}></TaskDetails>}></Route>
             </div>
             :
             <div>
