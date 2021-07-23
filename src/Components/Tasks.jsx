@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 // pagination
 import ReactPaginate from 'react-paginate';
-// paginate data
-import { paginate } from '../utils/paginate';
 // import tasks photo
 import tasksPhoto from '../images/tasks.jpg';
 import {Link} from 'react-router-dom';
@@ -11,26 +9,8 @@ import {Route} from 'react-router-dom';
 import TaskDetails from './TaskDetails';
  
 class Tasks extends Component {
-    state = {
-        // current page && pageSize
-        currentPage: 0,
-        pageSize: 5,
-    }
-    handlePageChange = (data) => {
-        // pick selected from data: 1,2,3 
-        const selectedPage = data.selected;
-        this.setState({currentPage: selectedPage});
-    }
     render() { 
-        const {willPower,tasks} = this.props;
-        const {pageSize, currentPage} = this.state;
-
-        // paginate data
-        const paginateTasks = paginate(tasks,currentPage,pageSize);
-        
-        // pageCount for pagination
-        const pageCount = Math.ceil(tasks.length / pageSize);
-
+        const {willPower,paginateTasks, pageCount, onPageChange, currentPage} = this.props;
         return ( 
             (willPower)?    
             <div>
@@ -50,7 +30,9 @@ class Tasks extends Component {
                     )}
                 <ReactPaginate 
                 pageCount={pageCount}
-                onPageChange={this.handlePageChange}
+                onPageChange={onPageChange}
+                // forcePage: set selected page by props
+                forcePage={currentPage}
                 marginPagesDisplayed={2}
                 containerClassName="pagination"
                 pageClassName="page-item"

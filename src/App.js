@@ -5,7 +5,8 @@ import Tasks from './Components/Tasks';
 import Button from './Components/Button';
 import axios from 'axios';
 import ListGroup from './Components/common/ListGroup';
-import { BrowserRouter } from 'react-router-dom';
+// paginate data
+import { paginate } from './utils/paginate';
 
 export const TasksContext = React.createContext();
 class App extends Component {
@@ -21,7 +22,9 @@ class App extends Component {
       {_id:"2", name: "Not Complete", completed: false}
     ],
     selectedItem: {_id: "", name: "All"},
-    // move state from task here and fix currentpage when select item on listgroup
+    // tasks
+    currentPage: 0,
+    pageSize: 5,
   };
   async componentDidMount(){
     // api tasks is the task received from json
@@ -49,13 +52,23 @@ class App extends Component {
   }
   // select item on listgroup handle
   handleItemSelect = (item) => {
-    this.setState({selectedItem: item});
+    this.setState({selectedItem: item, currentPage: 0});
   }
+  // select page on Pagination
+  handlePageChange = (data) => {
+  // pick selected from data: 1,2,3 
+    const selectedPage = data.selected;
+    this.setState({currentPage: selectedPage});
+}
   render () {
     // pick tasks and willPower from state
-    const {tasks,willPower,selectedItem} = this.state;
+    const {tasks,willPower,selectedItem, currentPage, pageSize} = this.state;
     // filter tasks
     const selectedTasks = (selectedItem._id)?tasks.filter(task => task.completed === selectedItem.completed):tasks;
+     // paginate data
+    const paginateTasks = paginate(selectedTasks,currentPage,pageSize);    
+     // pageCount for pagination
+    const pageCount = Math.ceil(selectedTasks.length / pageSize);
     return (
     <TasksContext.Provider value={{tasks: tasks, onUpdate: this.handleUpdate,
     onDelete: this.handleDelete}}>
@@ -63,7 +76,8 @@ class App extends Component {
         <Clock />
         <div className="row ">
           <div className="col-md-5">
-            <Tasks tasks = {selectedTasks} willPower={willPower}/>
+            <Tasks willPower={willPower} paginateTasks={paginateTasks} pageCount={pageCount}
+            onPageChange={this.handlePageChange} currentPage={currentPage}/>
           </div>
           {/* mt2 for responsive in small devices */}
           <div className="col-md-7 mt-2">
