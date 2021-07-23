@@ -6,3 +6,6 @@ body{
 .img-deco{
   width: 40vw;
 }
+.clickable{
+  cursor: pointer;
+}

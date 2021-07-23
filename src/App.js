@@ -4,6 +4,8 @@ import Clock from './Components/Clock';
 import Tasks from './Components/Tasks';
 import Button from './Components/Button';
 import axios from 'axios';
+import ListGroup from './Components/common/ListGroup';
+import { BrowserRouter } from 'react-router-dom';
 
 export const TasksContext = React.createContext();
 class App extends Component {
@@ -12,6 +14,14 @@ class App extends Component {
     tasks: [],
     // willPower: you will do it ?, default is false
     willPower: false,
+    // listgroup
+    states: [
+      {_id: "", name: "All"},
+      {_id:"1", name: "Complete",completed: true},
+      {_id:"2", name: "Not Complete", completed: false}
+    ],
+    selectedItem: {_id: "", name: "All"},
+    // move state from task here and fix currentpage when select item on listgroup
   };
   async componentDidMount(){
     // api tasks is the task received from json
@@ -37,21 +47,31 @@ class App extends Component {
     this.setState({tasks});
     await axios.delete("https://jsonplaceholder.typicode.com/todos" + "/" + task.id);
   }
+  // select item on listgroup handle
+  handleItemSelect = (item) => {
+    this.setState({selectedItem: item});
+  }
   render () {
     // pick tasks and willPower from state
-    const {tasks,willPower} = this.state;
-    
+    const {tasks,willPower,selectedItem} = this.state;
+    // filter tasks
+    const selectedTasks = (selectedItem._id)?tasks.filter(task => task.completed === selectedItem.completed):tasks;
     return (
-    <TasksContext.Provider value={{tasks: this.state.tasks, onUpdate: this.handleUpdate, onDelete: this.handleDelete}}>
+    <TasksContext.Provider value={{tasks: tasks, onUpdate: this.handleUpdate,
+    onDelete: this.handleDelete}}>
     <div className="container mt-5">
         <Clock />
         <div className="row ">
-          <div className="col-md-6">
-            <Tasks tasks = {tasks} willPower={willPower}/>
+          <div className="col-md-5">
+            <Tasks tasks = {selectedTasks} willPower={willPower}/>
           </div>
           {/* mt2 for responsive in small devices */}
-          <div className="col-md-6 mt-2">
-             <Button willPower={willPower} onClick={() => this.handleClick()}/>
+          <div className="col-md-7 mt-2">
+            <div className="container-fluid mb-2"><Button willPower={willPower}
+            onClick={() => this.handleClick()}/></div>
+            {/* conditional render for list group */}
+            {willPower&&<div className="container-fluid"><ListGroup items={this.state.states}
+            selectedItem={this.state.selectedItem} onItemSelect={this.handleItemSelect}></ListGroup></div>}
           </div>
         </div>
     </div>
